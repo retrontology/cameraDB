@@ -1,4 +1,4 @@
-from PIL import Image, ExifTags
+from PIL import Image, ExifTags, TiffImagePlugin
 import os
 import hashlib
 from urllib.parse import quote_plus
@@ -66,11 +66,17 @@ def get_exif(filename):
             if ExifTags.TAGS.get(key) == 'GPSInfo':
                 temp_exif[ExifTags.TAGS.get(key)] = exif.get_ifd(key)
             else:
-                temp_exif[ExifTags.TAGS.get(key)] = exif.get(key)
+                value = exif.get(key)
+                if type(value) is TiffImagePlugin.IFDRational:
+                    value = value.real.as_integer_ratio()
+                temp_exif[ExifTags.TAGS.get(key)] = value
         if 'GPSInfo' in temp_exif:
             gps_info = {}
             for key in temp_exif['GPSInfo']:
-                gps_info[ExifTags.GPSTAGS.get(key)] = temp_exif['GPSInfo'][key]
+                value = temp_exif['GPSInfo'][key]
+                if type(value) is TiffImagePlugin.IFDRational:
+                    value = value.real.as_integer_ratio()
+                gps_info[ExifTags.GPSTAGS.get(key)] = value
             for key in ['Longitude', 'Latitude']:
                 key = 'GPS'+key
                 if key in gps_info:
