@@ -3,9 +3,11 @@ import os
 import hashlib
 from urllib.parse import quote_plus
 from pymongo import MongoClient, DESCENDING
+from datetime import datetime
 
 BASE_DIR = '/mnt/media/Pictures'
 FILE_EXT = '.CR2'
+DATETIME_FORMAT = '%Y:%m:%d %H:%M:%S'
 
 USER = 'camera'
 PASS = '7xqYDdWVWqE3wgKgnx7g4Dc9'
@@ -70,6 +72,8 @@ def get_exif(filename):
                 if type(value) is TiffImagePlugin.IFDRational:
                     value = value.real.as_integer_ratio()
                 temp_exif[ExifTags.TAGS.get(key)] = value
+        if 'DateTime' in temp_exif:
+            temp_exif['DateTime'] = datetime.strptime(temp_exif['DateTime'], DATETIME_FORMAT)
         if 'GPSInfo' in temp_exif:
             gps_info = {}
             for key in temp_exif['GPSInfo']:
