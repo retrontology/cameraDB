@@ -98,9 +98,9 @@ def get_exif(filename):
     return exif
 
 def gps_to_decimal(scalar, ref):
-    output = scalar[0]
-    output = output + scalar[1]/60
-    output = output + scalar[2]/3600
+    output = scalar[0].numerator / scalar[0].denominator
+    output = output + scalar[1].numerator / scalar[1].denominator / 60
+    output = output + scalar[2].numerator / scalar[2].denominator / 3600
     if ref in ['S', 'W']:
         output = output * -1
     return output
