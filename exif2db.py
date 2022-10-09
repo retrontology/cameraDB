@@ -87,10 +87,6 @@ def get_exif(filename):
                         gps_info[key][2].real.as_integer_ratio()
                     )
             temp_exif['GPSInfo'] = gps_info
-        for key in ['X', 'Y']:
-            key = key + 'Resolution'
-            if key in temp_exif:
-                temp_exif[key] = (temp_exif[key].real.as_integer_ratio())
         temp_exif['MD5'] = get_md5(filename)
         exif = temp_exif
     return exif
