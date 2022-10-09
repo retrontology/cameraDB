@@ -30,6 +30,7 @@ def main():
     camdb = client.get_database(CAMERA_DB)
     snaps = camdb.get_collection(PICTURES_COLLECTION)
     create_collection_indexes(snaps)
+    count = 0
     for raw in raws:
         data = get_exif(raw)
         filter = {'MD5': data['MD5']}
@@ -41,6 +42,9 @@ def main():
             update=update,
             upsert=True,
         )
+        print(f'Logged {raw} as {data["MD5"]}')
+        count = count + 1
+    print(f'Logged a total of {count} pictures!')
 
 def get_raws(dir):
     raws = list()
@@ -71,6 +75,11 @@ def get_exif(filename):
                 key = 'GPS'+key
                 if key in gps_info:
                     gps_info[key+'Dec'] = gps_to_decimal(gps_info[key], gps_info[key+'Ref'])
+                    gps_info[key] = (
+                        gps_info[key][0].real.as_integer_ratio(),
+                        gps_info[key][1].real.as_integer_ratio(),
+                        gps_info[key][2].real.as_integer_ratio()
+                    )
             temp_exif['GPSInfo'] = gps_info
         for key in ['X', 'Y']:
             key = key + 'Resolution'
