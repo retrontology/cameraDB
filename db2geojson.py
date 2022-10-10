@@ -23,15 +23,16 @@ def create_feature(snap):
             'type': 'Point',
             'coordinates': [
                 snap['GPSInfo']['GPSLongitudeDec'],
-                snap['GPSInfo']['GPSLatitudeDec'],
-                snap['GPSInfo']['']
+                snap['GPSInfo']['GPSLatitudeDec']
             ]           
         },
         'properties': {
-            'prop0': '',
-            'prop1': ''
+            'name': snap['Path'],
+            'date': snap['DateTime']
         }
     }
+    if 'GPSAltitudeDec' in snap['GPSInfo']:
+        feature['geometry']['coordinates'].append(['GPSInfo']['GPSAltitudeDec'])
     return feature
 
 def get_snaps(collection):
