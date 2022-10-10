@@ -1,37 +1,18 @@
+import dblib
 from PIL import Image, ExifTags, TiffImagePlugin
 import os
 import hashlib
-from urllib.parse import quote_plus
-from pymongo import MongoClient, DESCENDING
 from datetime import datetime
 
 BASE_DIR = '/mnt/media/Pictures'
 FILE_EXT = '.CR2'
 DATETIME_FORMAT = '%Y:%m:%d %H:%M:%S'
 
-USER = 'camera'
-PASS = '7xqYDdWVWqE3wgKgnx7g4Dc9'
-AUTH_DB = 'admin'
-CAMERA_DB = 'camera'
-PICTURES_COLLECTION = 'snaps'
-HOSTS = [
-    {
-        'host': '192.168.1.100',
-        'port': 27017,
-    }
-]
-MD5_INDEX = {
-    'keys': [('MD5', DESCENDING)],
-    'name': 'MD5 Sum Index',
-    'background': False
-}
 
 def main():
     raws = get_raws(BASE_DIR)
-    client = MongoClient(get_mongo_string(HOSTS, USER, PASS, AUTH_DB))
-    camdb = client.get_database(CAMERA_DB)
-    snaps = camdb.get_collection(PICTURES_COLLECTION)
-    create_collection_indexes(snaps)
+    snaps = dblib.get_collection()
+    dblib.create_collection_index(snaps, dblib.MD5_INDEX)
     count = 0
     for raw in raws:
         data = get_exif(raw)
@@ -115,35 +96,6 @@ def get_md5(filename):
         for chunk in iter(lambda: f.read(4096), b""):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
-
-def get_mongo_string(hosts=[], username=None, password=None, authdb=None, options=[]):
-    out_string = "mongodb://"
-    if username:
-        out_string += f'{quote_plus(username)}:{quote_plus(password)}@'
-    for i in range(len(hosts)):
-        if i > 0:
-            out_string += ','
-        out_string += f'{hosts[i]["host"]}'
-        if 'port' in hosts[i]:
-            out_string += f':{hosts[i]["port"]}'
-    out_string += '/'
-    if authdb:
-        out_string += authdb
-    if options:
-        out_string += '?'
-        option_count = 0
-        for option in options:
-            if option_count > 0:
-                out_string += '&'
-            out_string += f'{option}={options[option]}'
-            option_count+=1
-    return out_string
-
-def create_collection_indexes(collection):
-    current_indexes = collection.list_indexes()
-    current_indexes = [index['name'] for index in current_indexes]
-    if MD5_INDEX['name'] not in current_indexes:
-        collection.create_index(**MD5_INDEX)
 
 if __name__ == "__main__":
     main()
