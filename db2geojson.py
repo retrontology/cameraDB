@@ -1,5 +1,6 @@
 import dblib
 import json
+import os.path
 
 OUTFILE = 'geosnaps.json'
 
@@ -27,8 +28,9 @@ def create_feature(snap):
             ]           
         },
         'properties': {
-            'name': snap['Path'],
-            'date': snap['DateTime']
+            'name': os.path.basename(snap['Path']),
+            'date': snap['DateTime'],
+            'path': snap['Path']
         }
     }
     if 'GPSAltitudeDec' in snap['GPSInfo']:
