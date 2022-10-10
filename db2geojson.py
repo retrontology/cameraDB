@@ -22,8 +22,9 @@ def create_feature(snap):
         'geometry': {
             'type': 'Point',
             'coordinates': [
-                1,
-                2
+                snap['GPSInfo']['GPSLongitudeDec'],
+                snap['GPSInfo']['GPSLatitudeDec'],
+                snap['GPSInfo']['']
             ]           
         },
         'properties': {
@@ -34,7 +35,7 @@ def create_feature(snap):
     return feature
 
 def get_snaps(collection):
-    pass
+    return collection.find(filter={'GPSInfo.GPSLatitudeDec': {'$exists': True}})
 
 if __name__ == "__main__":
     main()

@@ -77,6 +77,8 @@ def get_exif(filename):
                     gps_info['GPSTimeStamp'][1].real.as_integer_ratio(),
                     gps_info['GPSTimeStamp'][2].real.as_integer_ratio()
                 )
+            if 'GPSAltitude' in gps_info:
+                gps_info['GPSAltitudeDec'] = gps_info['GPSAltitude'][0]/gps_info['GPSAltitude'][0]
             temp_exif['GPSInfo'] = gps_info
         temp_exif['MD5'] = get_md5(filename)
         exif = temp_exif
