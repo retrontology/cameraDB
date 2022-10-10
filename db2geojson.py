@@ -38,7 +38,17 @@ def create_feature(snap):
     return feature
 
 def get_snaps(collection):
-    return collection.find(filter={'GPSInfo.GPSLatitudeDec': {'$exists': True}})
+    filter = {'GPSInfo.GPSLatitudeDec': {'$exists': True}}
+    projection = {
+        '_id': 0,
+        'Path': 1,
+        'GPSInfo': 1,
+        'DateTime': 1
+    }
+    return collection.find(
+        filter=filter, 
+        projection=projection
+    )
 
 if __name__ == "__main__":
     main()
