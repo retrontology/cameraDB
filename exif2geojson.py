@@ -14,7 +14,8 @@ def main():
     for raw in raws:
         data = exiflib.get_exif(raw)
         if 'GPSLatitude' in data['GPSInfo']:
-            print(f'Appended {raw}')
+            print(f'Appending {raw}')
+            data['Path'] = raw
             snaps.append(data)
             count = count + 1
         else:
