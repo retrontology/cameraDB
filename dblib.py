@@ -1,6 +1,6 @@
 from urllib.parse import quote_plus
 from pymongo import MongoClient, DESCENDING
-from retroyaml import yamlConf
+from retroyaml.yamlConf import yamlConf
 
 INDEXES = [
     {

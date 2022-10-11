@@ -8,7 +8,7 @@ DATETIME_FORMAT = '%Y:%m:%d %H:%M:%S'
 
 def get_raws(dir, ext=FILE_EXT):
     if ext[0] != '.':
-        ext = 
+        ext = '.' + ext
     raws = list()
     dir = os.path.abspath(dir)
     files = os.listdir(dir)
