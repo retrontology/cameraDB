@@ -31,12 +31,12 @@ def create_feature(snap):
         },
         'properties': {
             'name': os.path.basename(snap['Path']),
-            'date': snap['DateTime'],
+            'date': snap['DateTime'].strftime('%H:%M:%S %d/%m/%Y'),
             'path': snap['Path']
         }
     }
     if 'GPSAltitudeDec' in snap['GPSInfo']:
-        feature['geometry']['coordinates'].append(['GPSInfo']['GPSAltitudeDec'])
+        feature['geometry']['coordinates'].append(snap['GPSInfo']['GPSAltitudeDec'])
     return feature
 
 def get_snaps(collection):

@@ -12,20 +12,53 @@ HOSTS = [
         'port': 27017,
     }
 ]
-MD5_INDEX = {
-    'keys': [('MD5', DESCENDING)],
-    'name': 'MD5 Sum Index',
-    'background': False
-}
 
-def get_client(hosts=HOSTS, username=USER, password=PASS, authdb=AUTH_DB):
-    return MongoClient(get_mongo_string(hosts, username, password, authdb))
+INDEXES = [
+    {
+        'keys': [('MD5', DESCENDING)],
+        'name': 'MD5 Sum Index',
+        'background': False
+    }
+]
 
-def get_db(db=CAMERA_DB):
-    return get_client().get_database(db)
+class dbhelper():
 
-def get_collection(collection=PICTURES_COLLECTION):
-    return get_db().get_collection(collection)
+    def __init__(
+        self,
+        hosts,
+        camera_db,
+        pictures_collection,
+        username=None,
+        password=None,
+        auth_db=None
+    ):
+        self.hosts = hosts
+        self.camera_db = camera_db
+        self.pictures_collection = pictures_collection
+        self.username = username
+        self.password = password
+        self.auth_db = auth_db
+
+    def get_client(self):
+        return MongoClient(get_mongo_string(
+            self.hosts,
+            self.username,
+            self.password,
+            self.auth_db
+        ))
+    
+    def get_db(self):
+        return self.get_client().get_database(self.camera_db)
+
+    def get_collection(self):
+        return self.get_db().get_collection(self.pictures_collection)
+
+    def create_indexes(self):
+        collection = self.get_collection()
+        for index in INDEXES:
+            create_collection_index(collection, index)
+
+    
 
 def get_mongo_string(hosts=[], username=None, password=None, authdb=None, options=[]):
     out_string = "mongodb://"
