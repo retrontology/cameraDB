@@ -3,12 +3,15 @@
 import dblib
 import exiflib
 
+DB_CONFIG = 'db.yml'
 BASE_DIR = '/mnt/media/Pictures'
 
+
 def main():
-    raws = exiflib.get_raws(exiflib.BASE_DIR)
-    snaps = dblib.get_collection()
-    dblib.create_collection_index(snaps, dblib.MD5_INDEX)
+    raws = exiflib.get_raws(BASE_DIR)
+    dbhelper = dblib.dbhelper(DB_CONFIG)
+    snaps = dbhelper.get_collection()
+    dbhelper.create_indexes()
     count = 0
     for raw in raws:
         data = exiflib.get_exif(raw)

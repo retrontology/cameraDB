@@ -4,6 +4,7 @@ import dblib
 import json
 import os.path
 
+DB_CONFIG = 'db.yml'
 OUTFILE = 'geosnaps.json'
 
 
@@ -12,7 +13,8 @@ def main():
         'type': 'FeatureCollection',
         'features': list()
     }
-    snaps = dblib.get_collection()
+    dbhelper = dblib.dbhelper(DB_CONFIG)
+    snaps = dbhelper.get_collection()
     for snap in get_snaps(snaps):
         geojson['features'].append(create_feature(snap))
     with open(OUTFILE, 'w') as out:

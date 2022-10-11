@@ -1,17 +1,6 @@
 from urllib.parse import quote_plus
 from pymongo import MongoClient, DESCENDING
-
-USER = 'camera'
-PASS = '7xqYDdWVWqE3wgKgnx7g4Dc9'
-AUTH_DB = 'admin'
-CAMERA_DB = 'camera'
-PICTURES_COLLECTION = 'snaps'
-HOSTS = [
-    {
-        'host': '192.168.1.100',
-        'port': 27017,
-    }
-]
+from retroyaml import yamlConf
 
 INDEXES = [
     {
@@ -21,23 +10,20 @@ INDEXES = [
     }
 ]
 
+
 class dbhelper():
 
     def __init__(
         self,
-        hosts,
-        camera_db,
-        pictures_collection,
-        username=None,
-        password=None,
-        auth_db=None
+        config
     ):
-        self.hosts = hosts
-        self.camera_db = camera_db
-        self.pictures_collection = pictures_collection
-        self.username = username
-        self.password = password
-        self.auth_db = auth_db
+        config = yamlConf(config)
+        self.hosts = config.hosts
+        self.camera_db = config.camera_db
+        self.pictures_collection = config.pictures_collection
+        self.username = config.username
+        self.password = config.password
+        self.auth_db = config.auth_db
 
     def get_client(self):
         return MongoClient(get_mongo_string(

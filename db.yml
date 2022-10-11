@@ -1,0 +1,8 @@
+username: 'camera'
+password: '7xqYDdWVWqE3wgKgnx7g4Dc9'
+auth_db: 'admin'
+camera_db: 'camera'
+pictures_collection: 'snaps'
+hosts: 
+  - host: '192.168.1.100'
+    port: 27017
