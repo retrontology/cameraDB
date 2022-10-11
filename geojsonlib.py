@@ -1,20 +1,12 @@
 import json
 import os.path
 
-FILTER = {'GPSInfo.GPSLatitudeDec': {'$exists': True}}
-PROJECTION = {
-    '_id': 0,
-    'Path': 1,
-    'GPSInfo': 1,
-    'DateTime': 1
-}
-
-def create_geojson(collection, indent=4):
+def create_geojson(snaps, indent=4):
     geojson = {
         'type': 'FeatureCollection',
         'features': list()
     }
-    for snap in get_snaps(collection):
+    for snap in snaps:
         geojson['features'].append(create_feature(snap))
     return json.dumps(geojson, indent=indent)
 
@@ -37,10 +29,3 @@ def create_feature(snap):
     if 'GPSAltitudeDec' in snap['GPSInfo']:
         feature['geometry']['coordinates'].append(snap['GPSInfo']['GPSAltitudeDec'])
     return feature
-
-def get_snaps(collection):
-    
-    return collection.find(
-        filter=FILTER, 
-        projection=PROJECTION
-    )

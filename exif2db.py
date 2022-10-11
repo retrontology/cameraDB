@@ -15,6 +15,7 @@ def main():
     count = 0
     for raw in raws:
         data = exiflib.get_exif(raw)
+        data['MD5'] = exiflib.get_md5(raw)
         filter = {'MD5': data['MD5']}
         update = data
         update['Path'] = raw
