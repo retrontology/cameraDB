@@ -2,6 +2,7 @@ from urllib.parse import quote_plus
 from pymongo import MongoClient, DESCENDING
 from retroyaml.yamlConf import yamlConf
 
+DB_CONFIG = 'db.yml'
 INDEXES = [
     {
         'keys': [('MD5', DESCENDING)],

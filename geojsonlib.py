@@ -1,6 +1,8 @@
 import json
 import os.path
 
+OUTFILE = 'geosnaps.json'
+
 def create_geojson(snaps, indent=4):
     geojson = {
         'type': 'FeatureCollection',
