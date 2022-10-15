@@ -1,4 +1,5 @@
 from audioop import add
+from datetime import datetime
 import folium
 import os.path
 
@@ -35,10 +36,10 @@ def create_marker_group(markers):
 
 def create_marker(marker):
     popup = create_popup(marker)
-    location = marker['location']
+    location = marker['Location']
     return folium.Marker(location=location, popup=popup)
 
 def create_popup(marker):
-    date = marker['date']
-    path = f"<a href=file://{marker['path']}>{os.path.basename(marker['path'])}</a>"
+    date = marker['DateTime']
+    path = f"<a href=file://{marker['Path']}>{os.path.basename(marker['Path'])}</a>"
     return path + '\n' + date

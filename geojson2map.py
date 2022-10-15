@@ -4,8 +4,6 @@ import argparse
 import maplib
 import geojsonlib
 
-INFILE = 'geosnaps.json'
-
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Read location data from geojson file and create an html map using folium/leaflet')
@@ -18,7 +16,7 @@ def parse_args():
         '--output-file',
         dest='outfile',
         default=maplib.OUTFILE,
-        help='The file you want to write the geojson to. Defaults to "geosnaps.json".'
+        help='The file you want to write the leaflet map to. Defaults to "index.html".'
     )
     return parser.parse_args()
 
@@ -35,7 +33,7 @@ def features_to_markers(features):
             feature['geometry']['coordinates'][0]
         ]
         marker = {
-            'location': location
+            'Location': location
         }
         marker.update(feature['properties'])
         yield marker

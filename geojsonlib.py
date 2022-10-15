@@ -27,9 +27,9 @@ def create_feature(snap):
             ]           
         },
         'properties': {
-            'name': os.path.basename(snap['Path']),
-            'date': snap['DateTime'].strftime('%H:%M:%S %d/%m/%Y'),
-            'path': snap['Path']
+            'Name': os.path.basename(snap['Path']),
+            'DateTime': snap['DateTime'].strftime('%H:%M:%S %d/%m/%Y'),
+            'Path': snap['Path']
         }
     }
     if 'GPSAltitudeDec' in snap['GPSInfo']:

@@ -10,6 +10,14 @@ INDEXES = [
         'background': False
     }
 ]
+FILTER = {'GPSInfo.GPSLatitudeDec': {'$exists': True}}
+PROJECTION = {
+    '_id': 0,
+    'Path': 1,
+    'GPSInfo': 1,
+    'DateTime': 1
+}
+
 
 
 class dbhelper():

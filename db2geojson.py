@@ -4,14 +4,6 @@ import dblib
 import geojsonlib
 import argparse
 
-FILTER = {'GPSInfo.GPSLatitudeDec': {'$exists': True}}
-PROJECTION = {
-    '_id': 0,
-    'Path': 1,
-    'GPSInfo': 1,
-    'DateTime': 1
-}
-
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Read exif data from a mongodb and use it to generate a geojson file.')
@@ -36,8 +28,8 @@ def main():
     dbhelper = dblib.dbhelper(args.config)
     collection = dbhelper.get_collection()
     snaps = collection.find(
-        filter=FILTER, 
-        projection=PROJECTION
+        filter=dblib.FILTER, 
+        projection=dblib.PROJECTION
     )
     with open(args.output, 'w') as out:
         out.write(geojsonlib.create_geojson(snaps))
