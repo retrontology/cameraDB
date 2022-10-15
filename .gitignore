@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 
 # Custom
-geosnaps.json
+*.json
+*.html
