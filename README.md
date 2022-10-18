@@ -113,6 +113,8 @@ options:
                         The file you want to write the map to. Defaults to "index.html".
 ```
 
+## geojson2map.py
+
 ### Description
 Read location data from geojson file and create an html map using folium/leaflet
 
