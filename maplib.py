@@ -43,3 +43,15 @@ def create_popup(marker):
     date = marker['DateTime']
     path = f"<a href=file://{marker['Path']}>{os.path.basename(marker['Path'])}</a>"
     return path + '\n' + date
+
+def snaps_to_markers(snaps):
+    for snap in snaps:
+        marker = {
+            'Location': [
+                snap['GPSInfo']['GPSLatitudeDec'],
+                snap['GPSInfo']['GPSLongitudeDec']
+            ],
+            'Path': snap['Path'],
+            'DateTime': snap['DateTime'].strftime('%H:%M:%S %d/%m/%Y')
+        }
+        yield marker

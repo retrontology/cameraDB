@@ -6,7 +6,7 @@ import dblib
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Read location data from geojson file and create an html map using folium/leaflet')
+    parser = argparse.ArgumentParser(description='Read location data from mongodb and create an html map using folium/leaflet')
     parser.add_argument(
         '-c',
         '--config',
@@ -19,7 +19,7 @@ def parse_args():
         '--output-file',
         dest='outfile',
         default=maplib.OUTFILE,
-        help='The file you want to write the geojson to. Defaults to "geosnaps.json".'
+        help='The file you want to write the map to. Defaults to "index.html".'
     )
     return parser.parse_args()
 
@@ -30,19 +30,7 @@ def main():
         filter=dblib.FILTER,
         projection=dblib.PROJECTION
     )
-    maplib.create_map(snaps_to_markers(snaps)).save(args.outfile)
-
-def snaps_to_markers(snaps):
-    for snap in snaps:
-        marker = {
-            'Location': [
-                snap['GPSInfo']['GPSLatitudeDec'],
-                snap['GPSInfo']['GPSLongitudeDec']
-            ],
-            'Path': snap['Path'],
-            'DateTime': snap['DateTime'].strftime('%H:%M:%S %d/%m/%Y')
-        }
-        yield marker
+    maplib.create_map(maplib.snaps_to_markers(snaps)).save(args.outfile)
 
 if __name__ == '__main__':
     main()
