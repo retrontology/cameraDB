@@ -5,7 +5,7 @@ import exiflib
 import argparse
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Read exif data from photos in a directory and load it into a map.')
+    parser = argparse.ArgumentParser(description='Read exif data from photos in a directory and create an html map using folium/leaflet.')
     parser.add_argument(
         'dirs',
         metavar='dir',

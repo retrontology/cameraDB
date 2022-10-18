@@ -75,3 +75,40 @@ hosts:
   - host: '192.168.1.100'
     port: 27017
 ```
+
+## db2map.py
+
+### Description
+Read location data from mongodb and create an html map using folium/leaflet
+
+### Usage
+```
+usage: db2map.py [-h] [-c CONFIG] [-o OUTFILE]
+
+options:
+  -h, --help            show this help message and exit
+  -c CONFIG, --config CONFIG
+                        The yaml configuration file for the mongodb. Defaults to "db.yml".
+  -o OUTFILE, --output-file OUTFILE
+                        The file you want to write the map to. Defaults to "index.html".
+```
+
+## exif2map.py
+
+### Description
+Read exif data from photos in a directory and create an html map using folium/leaflet.
+
+### Usage
+```
+usage: exif2map.py [-h] [-e EXTENSION] [-o OUTFILE] dir [dir ...]
+
+positional arguments:
+  dir                   Directory(s) that contain the photos you want to parse exif data from.
+
+options:
+  -h, --help            show this help message and exit
+  -e EXTENSION, --extension EXTENSION
+                        the extension of the photos you want to parse. Defaults to ".CR2"
+  -o OUTFILE, --output-file OUTFILE
+                        The file you want to write the map to. Defaults to "index.html".
+```
