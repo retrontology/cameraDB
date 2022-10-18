@@ -112,3 +112,19 @@ options:
   -o OUTFILE, --output-file OUTFILE
                         The file you want to write the map to. Defaults to "index.html".
 ```
+
+### Description
+Read location data from geojson file and create an html map using folium/leaflet
+
+### Usage
+```
+usage: geojson2map.py [-h] [-o OUTFILE] infile
+
+positional arguments:
+  infile                Geojson file you want to convert to a map
+
+options:
+  -h, --help            show this help message and exit
+  -o OUTFILE, --output-file OUTFILE
+                        The file you want to write the leaflet map to. Defaults to "index.html".
+```
