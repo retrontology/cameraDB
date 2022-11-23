@@ -27,6 +27,7 @@ backup_sd () {
 
     sudo mount $DEV $MOUNT
 
+    mkdir -p $BASE_DIR
     PDIRS="$(find_sd_dirs $MOUNT)"
     for pdir in $PDIRS
     do
@@ -44,7 +45,6 @@ backup_sd () {
             CP_DIR="$BASE_DIR""$DATE""_$OFFSET_PAD"
         fi
         echo Copying $pdir to $CP_DIR
-        mkdir -p $CP_DIR
         rsync -PrltDv "$pdir" "$CP_DIR"
     done
 
