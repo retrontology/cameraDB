@@ -59,7 +59,7 @@ backup_local_to_server() {
         echo The network directory at $NETWORK_DIR does not exist!
         exit 2
     else
-        cp -rv $LOCAL_DIR $NETWORK_DIR
+        rsync -PrltDv $LOCAL_DIR $NETWORK_DIR >&2
         echo
     fi
 }
