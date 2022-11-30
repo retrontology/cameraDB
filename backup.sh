@@ -18,7 +18,7 @@ find_sd_dirs () {
     done
 }
 
-backup_sd () {
+backup_sd_to_local () {
 
     DEV="$1"
     MOUNT="$2"
@@ -43,13 +43,30 @@ backup_sd () {
             done
             CP_DIR="$BASE_DIR""$DATE""_$OFFSET_PAD"
         fi
-        echo Copying $pdir to $CP_DIR
+        echo $CP_DIR
         mkdir -p $CP_DIR
-        rsync -PrltDv $pdir/* "$CP_DIR"
+        rsync -PrltDv $pdir/* "$CP_DIR" >&2
     done
 
     sudo umount $DEV
 }
 
-backup_sd "$SD_DEV" "$SD_MOUNT" "$LOCAL_PDIR"
+backup_local_to_server() {
+    LOCAL_DIR="$1"
+    NETWORK_DIR="$2"
+    if [ ! -d $NETWORK_DIR ]
+    then
+        echo The network directory at $NETWORK_DIR does not exist!
+        exit 2
+    else
+        cp -rv $LOCAL_DIR $NETWORK_DIR
+        echo
+    fi
+}
 
+
+LOCAL_DIRS="$(backup_sd_to_local $SD_DEV $SD_MOUNT $LOCAL_PDIR)"
+for LDIR in $LOCAL_DIRS
+do
+    backup_local_to_server "$LDIR" "$NET_PDIR"
+done
